@@ -1,11 +1,11 @@
 import app from './app.js';
-import {sequelize} from './database/database.js'
-import "./models/projects.js"
-import "./models/Task.js"
+import {sequelize} from './database/database.js';
+import './models/Task.js'
+import './models/projects.js'
 
 async function main(){
   try {
-    await sequelize.sync({ force: true })
+    await sequelize.sync({ force: false });
     app.listen(3000);
     console.log("on");
   } catch (error) {

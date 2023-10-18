@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize"; //IMPORTO EL OBJETO DATATYPES DE SEQUELIZ
 import { sequelize } from "../database/database.js"; //IMPORTO LA CONFIGURACION DE LA BASE DE DATOS A LA QUE ME ESTOY CONECTANDO
 
 // DEFINO EL MODELO DE LA TABLA
-export const Task = sequelize.define('Task', {
+export const Task = sequelize.define('tareas', {
   id: {
     type: DataTypes.INTEGER, // Tipo de datos de la columna 1
     primaryKey: true, // ES UNA PRIMARY KEY

@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize"; //IMPORTO EL OBJETO DATATYPES DE SEQUELIZE 
 import { sequelize } from "../database/database.js";
-import { Task} from "./models.Task.js";
+import { Task } from "./Task.js";
 
 // DEFINO EL MODELO DE LA TABLA
 export const projects = sequelize.define('projects', {
@@ -22,4 +22,12 @@ export const projects = sequelize.define('projects', {
   timestamps: false // Desactiva los campos createdAt y updatedAt solo para este modelo
 });
 
-projects.hasMany
+projects.hasMany(Task,{
+  foreignKey: 'projectId',
+  sourceKey: 'id'
+})
+
+Task.belongsTo(projects,{
+   foreignKey: 'projectId',
+   targetKey: 'id'
+});

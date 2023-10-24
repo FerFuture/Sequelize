@@ -5,10 +5,10 @@ import { Task } from "./Task.js";
 // DEFINO EL MODELO DE LA TABLA
 export const projects = sequelize.define('projects', {
   id: {
-    type: DataTypes.INTEGER, // Tipo de datos de la columna 1
-    primaryKey: true, // ES UNA PRIMARY KEY
-    autoIncrement: true // AUTOINCREMENTO
-  },
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: false, // Desactiva el incremento automático
+  },  
   name: {
     type: DataTypes.STRING // Tipo de datos de la columna 2
   },

@@ -6,7 +6,7 @@ export const Task = sequelize.define('tareas', {
   id: {
     type: DataTypes.INTEGER, // Tipo de datos de la columna 1
     primaryKey: true, // ES UNA PRIMARY KEY
-    autoIncrement: true // AUTOINCREMENTO
+    autoIncrement: false // AUTOINCREMENTO
   },
   name: {
     type: DataTypes.STRING // Tipo de datos de la columna 2

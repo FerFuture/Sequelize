@@ -1,8 +1,8 @@
-import {projects} from '../models/projects.js'
-import {Task} from '../models/Task.js'
+import { Task } from '../models/Task.js'
 
-export const obteners = (req, res) => {
-  projects.findAll()
+
+export const obt = (req, res) => {
+  Task.findAll()
   .then((proyectos) => {
     res.status(200).json(proyectos); // Responde con la lista de proyectos
   })
@@ -12,21 +12,21 @@ export const obteners = (req, res) => {
   });
 }
 
-export const crear = async (req, res) => {
+export const creacion = async (req, res) => {
   try {
     let projectId = req.body.id; // Obtén el ID del JSON de la solicitud
 
     if (projectId === undefined) {
       // Si el ID no se proporciona en el JSON, encuentra el próximo ID disponible
-      projectId = await findNextAvailableId(projects);
+      projectId = await findNextAvailableId(Task);
     }
 
     // Luego puedes continuar con la creación del registro usando projectId
-    const newProject = await projects.create({
+    const newProject = await Task.create({
       id: projectId,
       name: req.body.name,
-      priority: req.body.priority,
-      description: req.body.description,
+      done: req.body.done,
+      projectId: req.body.projectId,
     });
 
     res.status(201).json(newProject);
@@ -49,10 +49,10 @@ const findNextAvailableId = async (model) => {
 };
 
 
-export const eliminar = (req, res) => {
+export const borrar = (req, res) => {
   const projectId = req.params.id;
 
-  projects.destroy({
+  Task.destroy({
   where: {
     id: projectId,
          },
@@ -73,21 +73,21 @@ export const eliminar = (req, res) => {
 }
 
 
-export const actualizarProyecto = async (req, res) => {
+export const actu = async (req, res) => {
   try {
     const projectId = req.params.id; // ID del proyecto a actualizar
     const { name, priority, description } = req.body; // Nuevos datos del proyecto
 
     // Verifica si el proyecto existe
-    const proyectoExistente = await projects.findOne({ where: { id: projectId } });
+    const proyectoExistente = await Task.findOne({ where: { id: projectId } });
 
     if (!proyectoExistente) {
       return res.status(404).json({ error: 'Proyecto no encontrado' });
     }
 
     // Realiza la consulta de actualización
-    await projects.update(
-      { name, priority, description },
+    await Task.update(
+      { name, done, projectId },
       { where: { id: projectId } }
     );
 
@@ -99,12 +99,12 @@ export const actualizarProyecto = async (req, res) => {
 };
 
 
-export const obtenerId = async (req, res) => {
+export const obtid = async (req, res) => {
   try {
     const projectId = req.params.id; // ID del proyecto que deseas obtener
 
     // Realiza la consulta para buscar el proyecto por su ID
-    const proyecto = await projects.findByPk(projectId);
+    const proyecto = await Task.findByPk(projectId);
 
     if (proyecto) {
       // Si se encuentra el proyecto, lo envías como respuesta
@@ -117,13 +117,4 @@ export const obtenerId = async (req, res) => {
     console.error('Error al obtener el proyecto por ID:', error);
     res.status(500).json({ error: 'No se pudo obtener el proyecto' });
   }
-}
-
-
-export const obtenerIdtask = async (req, res) => {
-  const { id } = req.params;
-  const task = await Task.findAll({
-    where: { projectId: id }
-  }) 
-  res.json(task);
 }
